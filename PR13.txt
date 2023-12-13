@@ -1,0 +1,35 @@
+1. Create a table named "users" with the following columns/ attributes:
+id (integer, primary key), name (varchar2(50)),email (varchar2(100))
+password (varchar2(100))
+
+CREATE TABLE users (
+    id NUMBER(6) PRIMARY KEY,
+    name VARCHAR2(50),
+    email VARCHAR2(100),
+    password VARCHAR2(100)
+);
+
+2. Create a table named "products" with the following columns:
+id (integer, primary key), name (varchar2(100)), price (decimal(10,2) check
+price>100), description (text)
+
+CREATE TABLE products (
+    id NUMBER(6) PRIMARY KEY,
+    name VARCHAR2(100),
+    price NUMBER(10, 2) CHECK (price > 100),
+    description CLOB
+);
+
+3. Create a table named "orders" with the following columns:
+id (integer, primary key),user_id (integer, foreign key references users(id)),
+product_id (integer, foreign key references products(id))
+quantity (integer) not null
+
+CREATE TABLE orders (
+    id NUMBER(6) PRIMARY KEY,
+    user_id NUMBER(6) NOT NULL,
+    product_id NUMBER(6) NOT NULL,
+    quantity NUMBER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);

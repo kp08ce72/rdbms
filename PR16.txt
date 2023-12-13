@@ -1,0 +1,87 @@
+1.	Develop a program to retrieve and display employee details based on a given department ID.
+
+DECLARE
+    v_department_id NUMBER := &department_id; 
+    v_emp_id NUMBER;
+    v_emp_name VARCHAR2(50);
+
+    CURSOR emp_cursor (dept_id NUMBER) IS
+        SELECT EMPLOYEE_ID, FIRST_NAME
+        FROM HR.EMPLOYEES
+        WHERE DEPARTMENT_ID = dept_id;
+
+BEGIN
+
+    DBMS_OUTPUT.PUT_LINE('Employee Details for Department ID: ' || v_department_id);
+    DBMS_OUTPUT.PUT_LINE('--------------------------------------');
+
+    OPEN emp_cursor(v_department_id);
+    LOOP
+        FETCH emp_cursor INTO v_emp_id, v_emp_name;
+        EXIT WHEN emp_cursor%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_emp_id || ', Employee Name: ' || v_emp_name);
+    END LOOP;
+    CLOSE emp_cursor;
+END;
+/
+
+2.	Create a program to update the salary of employees based on a given job title.
+
+DECLARE
+	CURSOR emp_cursor (job_id VARCHAR) IS
+        SELECT * FROM HR.EMPLOYEES WHERE JOB_ID = job_id;
+	
+	p_job_title varchar(20);
+	p_salary_increase NUMBER;
+	p_job varchar(20);
+BEGIN
+	p_job_title := '&p_job_title';
+
+	p_salary_increase:=&p_salary_increase;
+
+	SELECT JOB_ID INTO p_job FROM HR.JOBS WHERE JOB_TITLE = p_job_title ;
+
+	FOR emp IN emp_cursor(p_job) LOOP
+		UPDATE HR.EMPLOYEES SET SALARY=SALARY +p_salary_increase WHERE EMPLOYEE_ID=emp.EMPLOYEE_ID;
+	END LOOP;
+	
+	DBMS_OUTPUT.PUT_LINE('Salaries updated for employees with job title ' || p_job_title);
+END;
+/
+
+3.	Create a PL/SQL procedure that uses a cursor to fetch and display employees who have been hired within a specific date range in the HR schema
+
+CREATE OR REPLACE PROCEDURE display_employees_by_hire_date(start_date DATE, end_date DATE) IS
+  -- Declare variables
+  v_employee_id HR.employees.employee_id%TYPE;
+  v_employee_name HR.employees.first_name%TYPE;
+  v_hire_date HR.employees.hire_date%TYPE;
+
+  -- Declare cursor
+  CURSOR hire_date_cursor IS
+    SELECT employee_id, first_name, hire_date
+    FROM HR.employees
+    WHERE hire_date BETWEEN start_date AND end_date;
+
+BEGIN
+  -- Open cursor
+  OPEN hire_date_cursor;
+
+  -- Fetch and display employee information
+  LOOP
+    FETCH hire_date_cursor INTO v_employee_id, v_employee_name, v_hire_date;
+    EXIT WHEN hire_date_cursor%NOTFOUND;
+
+    DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_employee_id || ', Name: ' || v_employee_name || ', Hire Date: ' || v_hire_date);
+  END LOOP;
+
+  -- Close cursor
+  CLOSE hire_date_cursor;
+END;
+/
+
+BEGIN
+  display_employees_by_hire_date(TO_DATE('1999-01-01', 'YYYY-MM-DD'), TO_DATE('2000-12-31', 'YYYY-MM-DD'));
+END;
+/

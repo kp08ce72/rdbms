@@ -1,0 +1,46 @@
+1. Create a trigger that automatically updates the last_update column of the employees table whenever a row is inserted or updated.
+ALTER TABLE HR.EMPLOYEES ADD LAST_UPDATE TIMESTAMP; 
+
+
+CREATE OR REPLACE TRIGGER update_last_update
+BEFORE INSERT OR UPDATE
+ON hr.employees
+FOR EACH ROW
+BEGIN
+    :NEW.last_update := SYSTIMESTAMP;
+END;
+/
+
+2. Create a trigger that prevents any changes to the salary column of the employees table for employees whose job title is President.
+
+CREATE OR REPLACE TRIGGER prevent_salary_change
+BEFORE UPDATE OF salary ON hr.employees
+FOR EACH ROW
+BEGIN
+    IF :NEW.job_id = 'AD_PRES' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Salary cannot be changed for employees with the job title President.');
+    END IF;
+END;
+/
+
+3. Create a trigger that automatically updates the salary_grade column of the employees table based on the employee's salary.
+ALTER TABLE HR.EMPLOYEES ADD SALARY_GRADE VARCHAR(10); 
+
+
+CREATE OR REPLACE TRIGGER update_salary_grade
+BEFORE INSERT OR UPDATE OF salary ON hr.employees
+FOR EACH ROW
+BEGIN
+    IF :NEW.salary IS NOT NULL THEN
+        IF :NEW.salary >= 10000 AND :NEW.salary < 20000 THEN
+            :NEW.salary_grade := 'Low';
+        ELSIF :NEW.salary >= 20000 AND :NEW.salary < 50000 THEN
+            :NEW.salary_grade := 'Medium';
+        ELSIF :NEW.salary >= 50000 THEN
+            :NEW.salary_grade := 'High';
+        ELSE
+            :NEW.salary_grade := 'Unknown';
+        END IF;
+    END IF;
+END;
+/

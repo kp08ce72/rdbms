@@ -1,0 +1,31 @@
+Perform queries to Create synonyms, sequence and index.
+1. Create a synonym for the employees table in the HR schema
+
+CREATE SYNONYM employees_synonym FOR hr.employees;
+
+2. Create a synonym for the departments table in the HR schema
+CREATE SYNONYM departments_synonym FOR hr.departments;
+
+3. Create a sequence named seq_emp_id that starts at 1 and increments by 1
+CREATE SEQUENCE seq_emp_id
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+4. Create a sequence for generating department IDs
+CREATE SEQUENCE seq_dept_id
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+5. Create an index named idx_emp_last_name on the last_name column of the
+employees table.
+CREATE INDEX idx_emp_last_name
+ON hr.employees(last_name);
+
+
+6. Create an index for the department names
+CREATE INDEX idx_dept_name
+ON hr.departments(department_name);

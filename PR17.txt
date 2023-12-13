@@ -1,0 +1,85 @@
+Implement PL/SQL programs using exception handling. 
+1. Write a program to convert a non-numeric string to number and display its value. If string is given it should raise INVALID_NUMBER error and display
+appropriate message.
+
+BEGIN
+	UPDATE HR.EMPLOYEES SET SALARY=&new_salary WHERE EMPLOYEE_ID=&emp_id;
+	DBMS_OUTPUT.PUT_LINE('Employee Updated...');
+EXCEPTION
+        WHEN INVALID_NUMBER THEN
+            DBMS_OUTPUT.PUT_LINE('Error: Invalid number. Please Enter a valid salary.');
+END;
+/
+
+SQL> @ H:\SOFTWARE\ORACLE\pr_15.sql;
+Enter value for new_salary: 5000
+Enter value for emp_id: 124
+old   2:        UPDATE HR.EMPLOYEES SET SALARY=&new_salary WHERE EMPLOYEE_ID=&emp_id;
+new   2:        UPDATE HR.EMPLOYEES SET SALARY=5000 WHERE EMPLOYEE_ID=124;
+Employee Updated...
+
+PL/SQL procedure successfully completed.
+
+SQL> @ H:\SOFTWARE\ORACLE\pr_15.sql;
+Enter value for new_salary: 'r5000'
+Enter value for emp_id: 124
+old   2:        UPDATE HR.EMPLOYEES SET SALARY=&new_salary WHERE EMPLOYEE_ID=&emp_id;
+new   2:        UPDATE HR.EMPLOYEES SET SALARY='r5000' WHERE EMPLOYEE_ID=124;
+Error: Invalid number. Please Enter a valid salary.
+
+PL/SQL procedure successfully completed.
+
+2. Write a program queries the employees table in the HR schema for a nonexisting employee, which will raise a NO_DATA_FOUND exception.
+
+
+BEGIN
+	UPDATE HR.EMPLOYEES SET SALARY=&new_salary WHERE EMPLOYEE_ID=&emp_id;
+	IF SQL%ROWCOUNT=0 THEN
+		RAISE NO_DATA_FOUND;
+	ELSE
+		DBMS_OUTPUT.PUT_LINE('Employee Updated...');
+	END IF;
+EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('No Employee found.');
+END;
+/
+
+3. Create a PL/SQL program that inserts a new employee record into the HR
+schema's employees table. However, if a record already exists with the same
+employee ID, the program should raise a named exception called
+"DUP_VAL_ON_INDEX" and handle it appropriately. The program should output a
+message indicating whether the record was successfully inserted or if the
+exception was raised.
+
+BEGIN
+	INSERT INTO hr.employees(EMPLOYEE_ID, FIRST_NAME,LAST_NAME,EMAIL,HIRE_DATE,JOB_ID)
+	VALUES (&EMPLOYEE_ID, '&FIRST_NAME','&LAST_NAME','&EMAIL','&HIRE_DATE','&JOB_ID');
+
+	DBMS_OUTPUT.PUT_LINE('Record successfully inserted.');
+EXCEPTION
+	WHEN DUP_VAL_ON_INDEX THEN
+		DBMS_OUTPUT.PUT_LINE('Error: Duplicate value on index. Record already exists.');
+END;
+/
+
+4. Create a PL/SQL program that inserts data into the employees table of the HR
+schema. The program should handle exceptions raised on encountering a NULL
+value for the primary key column, employee_id, or a NOT NULL value for the
+first_name column.
+
+DECLARE
+	NULL_IN_COLUMN EXCEPTION;
+	PRAGMA EXCEPTION_INIT(NULL_IN_COLUMN, -1400);
+BEGIN
+	INSERT INTO hr.employees(EMPLOYEE_ID, FIRST_NAME,LAST_NAME,EMAIL,HIRE_DATE,JOB_ID)
+	VALUES (&EMPLOYEE_ID, '&FIRST_NAME','&LAST_NAME','&EMAIL','&HIRE_DATE','&JOB_ID');
+
+	DBMS_OUTPUT.PUT_LINE('Record successfully inserted.');
+EXCEPTION
+	WHEN NULL_IN_COLUMN THEN
+            DBMS_OUTPUT.PUT_LINE('Error: NULL value encountered for one or more column');
+        WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Error: An unexpected error occurred');
+    END;
+/ 

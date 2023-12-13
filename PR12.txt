@@ -1,0 +1,36 @@
+1. Create a view called "employee_info" that shows the employee's first name, last name, job title, department name, and salary
+
+CREATE VIEW EMPLOYEE_INFO AS 
+SELECT FIRST_NAME,LAST_NAME,JOB_TITLE DEPARTMENT_NAME,SALARY FROM 
+HR.EMPLOYEES E JOIN HR.DEPARTMENTS D ON E.DEPARTMENT_ID=D.DEPARTMENT_ID
+JOIN 
+HR.JOBS J ON E.JOB_ID= J.JOB_ID;
+
+2. Add a new column called "hire_date" to the "employee_info" view
+
+CREATE OR REPLACE VIEW EMPLOYEE_INFO AS 
+SELECT FIRST_NAME,LAST_NAME,JOB_TITLE DEPARTMENT_NAME,SALARY,HIRE_DATE FROM 
+HR.EMPLOYEES E JOIN HR.DEPARTMENTS D ON E.DEPARTMENT_ID=D.DEPARTMENT_ID
+JOIN 
+HR.JOBS J ON E.JOB_ID= J.JOB_ID;
+
+
+3. Update the "employee_info" view to only show employees who have a salary greater than $50,000
+
+CREATE OR REPLACE VIEW EMPLOYEE_INFO AS 
+SELECT FIRST_NAME,LAST_NAME,JOB_TITLE DEPARTMENT_NAME,SALARY,HIRE_DATE FROM 
+HR.EMPLOYEES E JOIN HR.DEPARTMENTS D ON E.DEPARTMENT_ID=D.DEPARTMENT_ID
+JOIN 
+HR.JOBS J ON E.JOB_ID= J.JOB_ID 
+WHERE SALARY>50000;
+
+
+4. Create a view named "my_view" that shows only the employees who belong to department 20
+CREATE VIEW MY_VIEW AS SELECT * FROM HR.EMPLOYEES WHERE DEPARTMENT_ID=20;
+5. Alter the "my_view" view to show only the employees who belong to department
+30
+CREATE OR REPLACE VIEW MY_VIEW AS SELECT * FROM HR.EMPLOYEES WHERE DEPARTMENT_ID=30;
+
+6. Drop the "my_view" view from the database
+
+DROP VIEW MY_VIEW;

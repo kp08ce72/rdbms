@@ -1,0 +1,7 @@
+1. Create a package called "Employee_Info" that contains two functions, "get_salary" and "get_job_title". The "get_salary" function takes an employee ID as input and returns the employee's salary. The "get_job_title" function takes an employee ID as input and returns the employee's job title
+
+
+2. Create a procedure called "update_salary" that takes an employee ID and a new salary as input and updates the employee's salary. The procedure should also log the update in a separate table called "salary_history"
+
+
+3. Create a package called "Employee_Management" that contains a procedure called "promote_employee". The procedure should take an employee ID and a new job title as input and update the employee's job title. The procedure should also log the promotion in the "salary_history" table

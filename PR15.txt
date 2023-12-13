@@ -1,0 +1,155 @@
+1.	Write a PL/SQL block which takes student information as input and then display it. 
+
+set serveroutput on;
+DECLARE
+    -- Declare variables to store student information
+    student_name VARCHAR2(50);
+    roll_number NUMBER;
+    age NUMBER;
+
+BEGIN
+    -- Get student information as input
+    DBMS_OUTPUT.PUT_LINE('Enter Student Name:');
+    student_name := '&student_name';
+
+    DBMS_OUTPUT.PUT_LINE('Enter Roll Number:');
+    roll_number := &roll_number;
+
+    DBMS_OUTPUT.PUT_LINE('Enter Age:');
+    age := &age;
+
+    -- Display the entered student information
+    DBMS_OUTPUT.PUT_LINE('Student Information:');
+    DBMS_OUTPUT.PUT_LINE('Name: ' || student_name);
+    DBMS_OUTPUT.PUT_LINE('Roll Number: ' || roll_number);
+    DBMS_OUTPUT.PUT_LINE('Age: ' || age);
+
+END;
+/
+
+
+2.	Write a PL/SQL block to calculate the area of a circle for a value varying from 3 to 7. Store the radius and the corresponding values of calculated area in an empty table named AREAS, consisting of two columns RADIUS and AREA using while loop. 
+
+CREATE TABLE AREAS (
+    RADIUS NUMBER,
+    AREA NUMBER
+);
+
+DECLARE
+    
+    v_radius NUMBER := 3; -- Starting radius value
+    v_area NUMBER;
+
+BEGIN
+    
+    WHILE v_radius <= 7 LOOP
+        v_area := 3.14159 * POWER(v_radius, 2);        
+        INSERT INTO AREAS (RADIUS, AREA) VALUES (v_radius, v_area);
+        v_radius := v_radius + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Data are inserted in areas named table');
+
+END;
+/
+
+
+3.	Write a PL/SQL block to print the values 1 to 10 using a FOR loop. 
+
+DECLARE
+    v_counter NUMBER;
+BEGIN
+    FOR v_counter IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE('Value: ' || v_counter);
+    END LOOP;
+END;
+/
+
+4.	Write a PL/SQL block to print the values 1 to 10 in reverse order using for loop. 
+
+DECLARE
+    v_counter NUMBER;
+
+BEGIN
+    FOR v_counter IN REVERSE 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE('Value: ' || v_counter);
+    END LOOP;
+
+END;
+/
+
+
+5.	Write a PL/SQL block to make calculator using GOTO statement. (Accept two number then enter choice – 1. Addition 2. Subtraction 3. Multiplication 4. Division and display result)
+
+DECLARE
+    v_num1 NUMBER;
+    v_num2 NUMBER;
+    v_result NUMBER;
+    v_choice NUMBER;
+
+BEGIN
+    v_num1:=&v_num1;
+    v_num2:=&v_num2;
+    DBMS_OUTPUT.PUT_LINE('Choose operation:');
+    DBMS_OUTPUT.PUT_LINE('1. Addition');
+    DBMS_OUTPUT.PUT_LINE('2. Subtraction');
+    DBMS_OUTPUT.PUT_LINE('3. Multiplication');
+    DBMS_OUTPUT.PUT_LINE('4. Division');
+    v_choice :=&choice;
+    CASE v_choice
+        WHEN 1 THEN
+            v_result := v_num1 + v_num2;
+            GOTO display_result;
+        WHEN 2 THEN
+            v_result := v_num1 - v_num2;
+            GOTO display_result;
+        WHEN 3 THEN
+            v_result := v_num1 * v_num2;
+            GOTO display_result;
+        WHEN 4 THEN
+            v_result := v_num1 / v_num2;
+            GOTO display_result;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Invalid choice. Please choose a valid operation.');
+            GOTO end_program;
+    END CASE;
+
+    <<display_result>>
+    DBMS_OUTPUT.PUT_LINE('Result: ' || v_result);
+
+    <<end_program>>
+    NULL;
+
+END;
+/
+
+
+6.	Write a PL/SQL block that will accept an account number from the user. Check if the user’s balance is less than the minimum balance, only then deduct Rs.100/- from the balance. The process is fired on the ACCT_MSTR table. (minimum balance is 5000) 
+
+DECLARE
+    -- Declare variables
+    v_account_number NUMBER;
+    v_balance NUMBER;
+
+    -- Declare constants
+    c_minimum_balance CONSTANT NUMBER := 5000;
+    c_deduction_amount CONSTANT NUMBER := 100;
+
+BEGIN
+    v_account_number:=&account_number;
+
+    SELECT BALANCE INTO v_balance
+    FROM ACCT_MSTR
+    WHERE ACCOUNT_NUMBER = v_account_number;
+
+    IF v_balance < c_minimum_balance THEN
+        -- Deduct Rs.100 from the balance
+        UPDATE ACCT_MSTR
+        SET BALANCE = v_balance - c_deduction_amount
+        WHERE ACCOUNT_NUMBER = v_account_number;
+
+        DBMS_OUTPUT.PUT_LINE('Deducted Rs.100 from the balance.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Balance is above or equal to the minimum balance. No deduction needed.');
+    END IF;	
+END;
+/

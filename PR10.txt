@@ -1,0 +1,36 @@
+1.
+
+SELECT E.Employee_ID, E.First_Name, E.Last_Name, D.Department_Name, E.Job_ID
+FROM HR.Employees E
+JOIN HR.Departments D ON E.Department_ID = D.Department_ID
+WHERE D.Department_Name = 'Sales';
+
+
+2.
+
+SELECT Employee_ID, First_Name, Last_Name, Salary, Commission_Pct
+FROM HR.Employees
+WHERE Commission_Pct > 0.10;
+
+3.
+
+SELECT E1.Employee_ID, E1.First_Name, E1.Last_Name, D.Department_Name, E2.First_Name AS Manager_Name
+FROM HR.Employees E1
+JOIN HR.Departments D ON E1.Department_ID = D.Department_ID
+JOIN HR.Employees E2 ON E1.Manager_ID = E2.Employee_ID;
+
+4.
+
+SELECT E1.Employee_ID, E1.First_Name, E1.Last_Name, D.Department_Name, E1.Job_ID
+FROM HR.Employees E1
+JOIN HR.Departments D ON E1.Department_ID = D.Department_ID
+JOIN HR.Employees E2 ON E1.Manager_ID = E2.Employee_ID
+WHERE E2.Last_Name = 'King';
+
+5.
+
+SELECT E1.Employee_ID, E1.First_Name, E1.Last_Name, D.Department_Name, E1.Job_ID, E1.Salary
+FROM HR.Employees E1
+JOIN HR.Departments D ON E1.Department_ID = D.Department_ID
+WHERE E1.Department_ID = (SELECT Department_ID FROM HR.Employees WHERE Employee_ID = 176);
+

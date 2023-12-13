@@ -1,0 +1,65 @@
+1. Create a procedure that takes in a number and displays its square
+CREATE OR REPLACE PROCEDURE P_SQUARE(N IN NUMBER)
+AS
+	SQ NUMBER;
+BEGIN
+	SQ:=N*N;
+	DBMS_OUTPUT.PUT_LINE('SQUARE OF '||N||' IS:'||SQ);
+END;
+/
+
+2. Create a function that takes in two numbers and returns their sum
+
+CREATE OR REPLACE FUNCTION F_SUM(N1 IN NUMBER,N2 IN NUMBER) RETURN NUMBER
+AS
+	V_SUM NUMBER;
+BEGIN
+	V_SUM:=N1+N2;
+	RETURN V_SUM;
+END;
+/
+
+3. Create a PL/SQL block that defines a function to calculate the area of a rectangle and a procedure to calculate the perimeter of a rectangle. The user should be prompted to enter the length and width of the rectangle, and the results should be displayed
+
+
+
+CREATE OR REPLACE FUNCTION R_AREA(L IN NUMBER,W IN NUMBER) RETURN NUMBER
+AS
+	V_AREA NUMBER;
+BEGIN
+	V_AREA:=L*W;
+	RETURN V_AREA;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE C_AREA(R NUMBER) AS
+	V_AREA NUMBER;
+BEGIN
+
+	V_AREA:=3.14 *R*R;
+	DBMS_OUTPUT.PUT_LINE('AREA OF CIRCLE :'||V_AREA);
+END;
+/
+
+4. Write a procedure to check whether given number is odd or even. Also write the PL/SQL block to invoke it.
+
+
+CREATE OR REPLACE PROCEDURE CHECK_ODD_EVEN(N NUMBER) AS
+BEGIN
+	IF MOD(N,2)=0 THEN
+		DBMS_OUTPUT.PUT_LINE('NUMBER IS EVEN');
+	ELSE
+		DBMS_OUTPUT.PUT_LINE('NUMBER IS ODD');
+	END IF;
+END;
+/
+
+
+DECLARE
+	N NUMBER;
+BEGIN
+	N:=&NUMBER;
+	CHECK_ODD_EVEN(N);
+END;
+/

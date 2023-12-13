@@ -1,0 +1,28 @@
+Consider the relational database given below. Write SQL quires for the following:
+
+
+Employee (person-name, street, city)
+Works (person-name, company-name, salary)
+Company (company-name, city)
+Manages (person-name, manager-name)
+1.	To create works table. [2]
+2.	Find number of employee works in each company. [2]
+3.	Find number of person managed by each manager. [2]
+4.	Find the names, street address, and cities of residence of all employees who work for HCL and earn more than 20,000. [3]
+5.	Find the names of all employees in this database who live in the same city as the company for which they work. [3]
+6.	Find list of person works for multiple companies. [3]
+
+
+
+1.   Consider following table and solve given queries: [8]
+
+EMP(emp_no, emp_name, desg, salary, deptno)
+(1) Create table EMP. // also insert 6 records
+(2) Display information of all employees whose name starts with ‘a’ and ends with ‘h’.
+(3) Display department wise salary total.
+(4) Add new column mobile_no in EMP table.
+
+
+2. Write the output of following SQL query. [2]
+select LTRIM (‘INDIA’, ‘ID’) from dual;
+
